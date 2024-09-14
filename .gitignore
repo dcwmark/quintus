@@ -1,0 +1,18 @@
+# macOS
+.DS_Store
+
+# Linux
+.directory
+
+# Node
+node_modules/
+
+# Web Development
+*.min.js
+*.min.css
+*.map
+
+# general
+dist/
+*.log
+package-lock.json
