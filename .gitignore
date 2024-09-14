@@ -15,4 +15,5 @@ node_modules/
 # general
 dist/
 *.log
+.env
 package-lock.json
