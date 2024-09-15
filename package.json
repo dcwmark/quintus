@@ -1,0 +1,24 @@
+{
+  "name": "quintus",
+  "description": "",
+  "version": "1.0.0",
+  "main": "./src/server/index.mjs",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://github.com/dcwmark/quintus#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dcwmark/quintus.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dcwmark/quintus/issues"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "axios": "^1.7.7"
+  }
+}
