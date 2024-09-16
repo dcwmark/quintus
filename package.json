@@ -2,7 +2,7 @@
   "name": "quintus",
   "description": "",
   "version": "1.0.0",
-  "main": "./src/server/index.mjs",
+  "main": "dist/server/index.js",
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -14,11 +14,27 @@
   "bugs": {
     "url": "https://github.com/dcwmark/quintus/issues"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "scriptExplains": {
+    "&": "unix only: concurrent tasks; could use concurrently instead",
+    "&&": "sequential tasks; executes tasks one after another"
   },
-  "devDependencies": {},
+  "scripts": {
+    "build": "rimraf dist && npx tsc",
+    "prestart": "npm run build",
+    "start": "node dist/index.js",
+    "preserve": "npm run build",
+    "serve": "concurrently \"npx tsc -w\" \"nodemon dist/index.js\""
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.5.5",
+    "concurrently": "^9.0.1",
+    "nodemon": "^3.1.4",
+    "rimraf": "^6.0.1"
+  },
   "dependencies": {
-    "axios": "^1.7.7"
+    "axios": "^1.7.7",
+    "express": "^4.21.0",
+    "typescript": "^5.6.2"
   }
 }
