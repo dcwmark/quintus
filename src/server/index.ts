@@ -2,7 +2,6 @@
 
 'use strict';
 
-import { response } from "express";
 import { chatConnect } from "./connections/mistraAIlConnect";
 
 const prompt: string = `What does a robot dream?`;
