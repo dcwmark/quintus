@@ -9,7 +9,6 @@ import 'dotenv/config';
 import { API_KEYS } from "../../../constants/apiKeys";
 
 const apiKey = process.env[API_KEYS.MISTRAL_AI_API_KEY];
-console.debug(`mistral connect apiKey:: ${apiKey}`);
 
 export const client: Mistral = new Mistral({ apiKey: apiKey });
 
