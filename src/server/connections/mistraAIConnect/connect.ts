@@ -1,4 +1,4 @@
-// src/server/commections/mistralAAIConnect/connect.ts
+// src/server/commections/mistralAIConnect/connect.ts
 
 'use strict';
 
