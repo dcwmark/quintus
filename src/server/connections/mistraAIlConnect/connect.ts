@@ -25,7 +25,7 @@ export const chatConnect = async (prompt: string): Promise<string> => {
   const nullMessage = 'Mistral AI fails to return an answer!';
 
   if (!chatResponse?.choices?.length) {
-    return Promise.resolve(nullMessage);
+    return Promise.reject(nullMessage);
   }
 
   return Promise.resolve(chatResponse.choices[0].message.content ?? nullMessage);
