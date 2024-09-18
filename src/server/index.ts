@@ -2,7 +2,7 @@
 
 'use strict';
 
-import { chatConnect } from "./connections/mistraAIlConnect";
+import { chatConnect } from "./connections/mistraAIConnect";
 
 const prompt: string = `What does a robot dream?`;
 chatConnect(prompt)
