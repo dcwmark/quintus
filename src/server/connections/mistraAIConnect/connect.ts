@@ -7,6 +7,7 @@ import { ChatCompletionResponse } from "@mistralai/mistralai/models/components/c
 import 'dotenv/config';
 
 import { API_KEYS } from "../../../constants/apiKeys";
+import { LLMs } from "../../../constants/LLMs";
 
 const apiKey = process.env[API_KEYS.MISTRAL_AI_API_KEY];
 
@@ -14,7 +15,7 @@ export const client: Mistral = new Mistral({ apiKey: apiKey });
 
 export const chatConnect = async (prompt: string): Promise<string> => {
   const chatResponse: ChatCompletionResponse = await client.chat.complete({
-    model: 'mistral-large-latest',
+    model: process.env[LLMs.MISTRAL_CHAT_LLM] ?? null,
     messages: [{
       role: 'user',
       content: prompt,
