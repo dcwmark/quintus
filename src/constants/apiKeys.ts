@@ -2,6 +2,8 @@
 
 'use strict';
 
-export enum API_KEYS {
-  MISTRAL_AI_API_KEY = 'MISTRAL_AI_API_KEY',
+import 'dotenv/config';
+
+export const API_KEYS = {
+  MISTRAL_AI_API_KEY: process.env.MISTRAL_AI_API_KEY as string,
 };

@@ -2,6 +2,8 @@
 
 'use strict';
 
-export enum LLMs {
-  MISTRAL_CHAT_LLM = 'MISTRAL_CHAT_LLM',
+import 'dotenv/config';
+
+export const LLMs = {
+  MISTRAL_CHAT_LLM: process.env.MISTRAL_CHAT_LLM as string,
 };

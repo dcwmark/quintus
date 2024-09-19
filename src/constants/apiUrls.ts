@@ -2,6 +2,8 @@
 
 'use strict';
 
-export enum API_URLS {
-  MISTRAL_AI_API_URL = 'MISTRAL_AI_API_URL',
+import 'dotenv/config';
+
+export const API_URLS = {
+  MISTRAL_AI_API_URL: process.env.MISTRAL_AI_API_URL as string,
 };
