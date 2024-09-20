@@ -2,7 +2,7 @@
 
 'use strct';
 
-export { client } from './connect';
-export { chatConnect as mistralChat } from './connect';
-export { embedConnect as mistralEmbeddung } from './connect';
+export { mistral } from './connect';
+export { chatConnect as mistralAIChat } from './connect';
+export { embedConnect as mistralAIEmbeddung } from './connect';
 

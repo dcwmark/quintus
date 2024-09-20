@@ -2,14 +2,21 @@
 
 'use strict';
 
-import { mistralChat, mistralEmbeddung } from "./connections/mistralAIConnect";
+import { mistralAIChat, mistralAIEmbeddung } from "./connections/mistralAIConnect";
+import { openAIChat } from "./connections/openAIConnect";
 
 const prompt: string = `What does a robot dream?`;
-mistralChat(prompt)
+const inputs: string[] = ["Embed this sentence.", "As well as this one."];
+
+mistralAIChat(prompt)
   .then((response) => console.log(response))
   .catch((error) => console.error(error));
 
-const inputs: string[] = ["Embed this sentence.", "As well as this one."];
-mistralEmbeddung(inputs)
+mistralAIEmbeddung(inputs)
   .then((response) => console.log(response))
   .catch((error) => console.error(error));
+
+// openAIChat(prompt)
+//   .then((response) => console.log(response))
+//   .catch((error) => console.error(error));
+  

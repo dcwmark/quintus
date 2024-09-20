@@ -10,39 +10,33 @@ import { LLMs } from "../../../constants/LLMs";
 
 const apiKey = API_KEYS.MISTRAL_AI_API_KEY;
 
-export const client: Mistral = new Mistral({ apiKey: apiKey });
+export const mistral: Mistral = new Mistral({ apiKey: apiKey });
 
-export const chatConnect = async (prompt: string): Promise<string> => {
-  const chatResponse: ChatCompletionResponse = await client.chat.complete({
-    model: LLMs.MISTRAL_CHAT_LLM ?? null,
-    messages: [{
-      role: 'user',
-      content: prompt,
-    }],
-  });
-
-  const nullMessage = 'Mistral AI fails to return an answer!';
-
-  if (!chatResponse?.choices?.length) {
-    return Promise.reject(nullMessage);
+export const chatConnect = async (prompt: string): Promise<ChatCompletionResponse> => {
+  try {
+    const chatResponse: ChatCompletionResponse = await mistral.chat.complete({
+      model: LLMs.MISTRAL_CHAT_LLM ?? null,
+      messages: [{
+        role: 'user',
+        content: prompt,
+      }],
+    });
+    return Promise.resolve(chatResponse);
+  } catch(error) {
+    return Promise.reject(`MistralAI thrown error:: ${ error }`);
   }
-
-  return Promise.resolve(chatResponse.choices[0].message.content ?? nullMessage);
 };
 
 export const embedConnect = async (inputs: string[]) : Promise<ChatCompletionResponse> => {
-  const embeddingResponse: ChatCompletionResponse = await client.embeddings.create({
-    model: LLMs.MISTRAL_EMBED_LLM?? null,
-    inputs: inputs,
-  });
-
-  const nullMessage = 'Mistral AI fails to return any embedding!';
-
-  if (Object.keys(embeddingResponse).length < 1) {
-    return Promise.reject(nullMessage);
+  try {
+    const embeddingResponse: ChatCompletionResponse = await mistral.embeddings.create({
+      model: LLMs.MISTRAL_EMBED_LLM?? null,
+      inputs: inputs,
+    });
+    return Promise.resolve(embeddingResponse);
+  } catch(error) {
+    return Promise.reject(`MistralAi thrown error:: ${ error }`);
   }
-
-  return Promise.resolve(embeddingResponse);
 };
 
 
