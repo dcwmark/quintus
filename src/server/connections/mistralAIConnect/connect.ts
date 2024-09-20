@@ -30,4 +30,19 @@ export const chatConnect = async (prompt: string): Promise<string> => {
   return Promise.resolve(chatResponse.choices[0].message.content ?? nullMessage);
 };
 
+export const embedConnect = async (inputs: string[]) : Promise<ChatCompletionResponse> => {
+  const embeddingResponse: ChatCompletionResponse = await client.embeddings.create({
+    model: LLMs.MISTRAL_EMBED_LLM?? null,
+    inputs: inputs,
+  });
+
+  const nullMessage = 'Mistral AI fails to return any embedding!';
+
+  if (Object.keys(embeddingResponse).length < 1) {
+    return Promise.reject(nullMessage);
+  }
+
+  return Promise.resolve(embeddingResponse);
+};
+
 
