@@ -30,7 +30,7 @@ export const chatConnect = async (prompt: string): Promise<ChatCompletionRespons
 export const embedConnect = async (inputs: string[]) : Promise<ChatCompletionResponse> => {
   try {
     const embeddingResponse: ChatCompletionResponse = await mistral.embeddings.create({
-      model: LLMs.MISTRAL_EMBED_LLM?? null,
+      model: LLMs.MISTRAL_EMBED_LLM ?? null,
       inputs: inputs,
     });
     return Promise.resolve(embeddingResponse);

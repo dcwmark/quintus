@@ -15,7 +15,7 @@ export const chatConnect = async (prompt: string) : Promise<OpenAI.Chat.Completi
   try {
     const chatResponse: OpenAI.Chat.Completions.ChatCompletion =
       await openai.chat.completions.create({
-        model: LLMs.OPEN_AI_CHAT_LLM,
+        model: LLMs.OPEN_AI_CHAT_LLM ?? null,
         messages: [{
           role: 'user',
           content: prompt,
