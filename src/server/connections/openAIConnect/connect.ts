@@ -3,6 +3,7 @@
 'use strict';
 
 import OpenAI from "openai";
+import { ChatCompletion, CreateEmbeddingResponse } from "openai/resources";
 
 import { API_KEYS } from "../../../constants/apiKeys";
 import { LLMs } from "../../../constants/LLMs";
@@ -11,9 +12,9 @@ const apiKey = API_KEYS.OPEN_AI_API_KEY;
 
 export const openai = new OpenAI({ apiKey: apiKey});
 
-export const chatConnect = async (prompt: string) : Promise<OpenAI.Chat.Completions.ChatCompletion> => {
+export const chatConnect = async (prompt: string) : Promise<ChatCompletion> => {
   try {
-    const chatResponse: OpenAI.Chat.Completions.ChatCompletion =
+    const chatResponse: ChatCompletion =
       await openai.chat.completions.create({
         model: LLMs.OPEN_AI_CHAT_LLM ?? null,
         messages: [{
@@ -27,4 +28,14 @@ export const chatConnect = async (prompt: string) : Promise<OpenAI.Chat.Completi
   } 
 };
 
-
+export const embedConnect = async (inputs: string[]): Promise <CreateEmbeddingResponse> => {
+  try {
+    const embeddingResponse: CreateEmbeddingResponse = await openai.embeddings.create({
+      model: LLMs.OPEN_AI_EMBED_LLM,
+      input: inputs,
+    });
+    return Promise.resolve(embeddingResponse)
+  } catch(error) {
+    return Promise.reject(`OpenAi thrown error:: ${ error }`);
+  }
+};

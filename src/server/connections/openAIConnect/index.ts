@@ -4,5 +4,5 @@
 
 export { openai } from './connect';
 export { chatConnect as openAIChat } from './connect';
-// export { embedConnect as mistralEmbeddung } from './connect';
+export { embedConnect as openAIEmbeddung } from './connect';
 
