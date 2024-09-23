@@ -23,7 +23,7 @@
     "prestart": "npm run build",
     "start": "node dist/server/index.js",
     "preserve": "npm run build",
-    "server": "concurrently \"npx tsc -w\" \"nodemon dist/index.js\"",
+    "server": "concurrently \"npx tsc -w\" \"nodemon dist/server/index.js\"",
     "diagnostics": "concurrently \"npx tsc -w\" \"nodemon dist/server/diagnostics.js\""
   },
   "devDependencies": {
