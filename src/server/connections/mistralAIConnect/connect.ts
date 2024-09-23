@@ -15,7 +15,7 @@ export const mistral: Mistral = new Mistral({ apiKey: apiKey });
 export const chatConnect = async (prompt: string): Promise<ChatCompletionResponse> => {
   try {
     const chatResponse: ChatCompletionResponse = await mistral.chat.complete({
-      model: LLMs.MISTRAL_CHAT_LLM ?? null,
+      model: LLMs.MISTRAL_AI_CHAT_LLM ?? null,
       messages: [{
         role: 'user',
         content: prompt,
@@ -30,7 +30,7 @@ export const chatConnect = async (prompt: string): Promise<ChatCompletionRespons
 export const embedConnect = async (inputs: string[]) : Promise<ChatCompletionResponse> => {
   try {
     const embeddingResponse: ChatCompletionResponse = await mistral.embeddings.create({
-      model: LLMs.MISTRAL_EMBED_LLM ?? null,
+      model: LLMs.MISTRAL_AI_EMBED_LLM ?? null,
       inputs: inputs,
     });
     return Promise.resolve(embeddingResponse);
