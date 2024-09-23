@@ -4,3 +4,15 @@
 
 [TypeScript with node](https://www.youtube.com/watch?v=qy8PxD3alWw)
 
+### .env
+```
+MISTRAL_AI_API_URL=https://api.mistral.ai/v1
+MISTRAL_AI_API_KEY=
+MISTRAL_CHAT_LLM=mistral-large-latest
+MISTRAL_EMBED_LLM=mistral-embed
+
+OPEN_AI_API_KEY=
+OPEN_AI_CHAT_LLM=gpt-3.5-turbo
+OPEN_AI_EMBED_LLM=text-embedding-ada-002
+```
+
