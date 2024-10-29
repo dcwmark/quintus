@@ -10,7 +10,7 @@ import { LLMs } from "../../../constants/LLMs";
 const apiKey = API_KEYS.GEMINI_AI_API_KEY;
 
 export const geminiai = new GoogleGenerativeAI(apiKey);
-const model = geminiai.getGenerativeModel({ model: LLMs.GEMNINI_AI_CHAT_LLM });
+const model = geminiai.getGenerativeModel({ model: LLMs.GEMINI_AI_CHAT_LLM });
 
 export const chatConnect = async (prompt: string) : Promise<GenerateContentResult> => {
   try {

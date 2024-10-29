@@ -10,11 +10,11 @@ const prompt: string = `Create an haiku about a robot's dream.`;
 const inputs: string[] = ["Embed this sentence.", "As well as this one."];
 
 geminiAIChat(prompt)
-  .then((response) => console.log(`gemniniai response::`, response))
+  .then((response) => console.log(`geminiai response::`, response))
   .catch((error) => console.error(error));
 
 // mistralAIChat(prompt)
-//   .then((response) => console.log(`mistral response::`, response.choices))
+//   .then((response) => console.log(`mistralai response::`, response.choices))
 //   .catch((error) => console.error(error));
 
 // mistralAIEmbeddung(inputs)
