@@ -10,7 +10,7 @@ const prompt: string = `Create an haiku about a robot's dream.`;
 const inputs: string[] = ["Embed this sentence.", "As well as this one."];
 
 geminiAIChat(prompt)
-  .then((response) => console.log(`geminiai response::`, response))
+  .then((response) => console.log(`geminiai response::`, JSON.stringify(response, null, 2)))
   .catch((error) => console.error(error));
 
 // geminiAIEmbeddung(inputs)
@@ -18,7 +18,7 @@ geminiAIChat(prompt)
 //   .catch((error) => console.error(error));
 
 mistralAIChat(prompt)
-  .then((response) => console.log(`mistralai response::`, response.choices))
+  .then((response) => console.log(`mistralai response::`, JSON.stringify(response, null, 2)))
   .catch((error) => console.error(error));
 
 // mistralAIEmbeddung(inputs)
@@ -26,7 +26,7 @@ mistralAIChat(prompt)
 //   .catch((error) => console.error(error));
 
 openAIChat(prompt)
-  .then((response) => console.log(`openai response::`, response.choices))
+  .then((response) => console.log(`openai response::`, JSON.stringify(response, null, 2)))
   .catch((error) => console.error(error));
 
 // openAIEmbeddung(inputs)
