@@ -13,7 +13,8 @@ node_modules/
 *.map
 
 # general
+.env
+.vscode
 dist/
 *.log
-.env
 package-lock.json
