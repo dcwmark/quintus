@@ -14,7 +14,7 @@ geminiAIChat(prompt)
   .catch((error) => console.error(error));
 
 // geminiAIEmbeddung(inputs)
-//   .then((response) => console.log(response))
+//   .then((response) => console.log(`geminiai embedding response::`, response))
 //   .catch((error) => console.error(error));
 
 mistralAIChat(prompt)
@@ -22,7 +22,7 @@ mistralAIChat(prompt)
   .catch((error) => console.error(error));
 
 // mistralAIEmbeddung(inputs)
-//   .then((response) => console.log(response))
+//   .then((response) => console.log(`mistralai embedding response::`, response))
 //   .catch((error) => console.error(error));
 
 openAIChat(prompt)
@@ -30,5 +30,5 @@ openAIChat(prompt)
   .catch((error) => console.error(error));
 
 // openAIEmbeddung(inputs)
-//   .then((response) => console.log(response))
+//   .then((response) => console.log(`openai embedding response::`, response))
 //   .catch((error) => console.error(error));

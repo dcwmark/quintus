@@ -6,6 +6,10 @@
 
 ### .env
 ```
+GEMINI_AI_API_KEY=
+GEMINI_AI_CHAT_LLM=gemini-1.5-flash-002
+GEMINI_AI_EMBED_LLM=text-embedding-ada-002
+
 MISTRAL_AI_API_URL=https://api.mistral.ai/v1
 MISTRAL_AI_API_KEY=
 MISTRAL_CHAT_LLM=mistral-large-latest
