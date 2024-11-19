@@ -12,6 +12,12 @@ const apiKey = API_KEYS.OPEN_AI_API_KEY;
 
 export const openai = new OpenAI({ apiKey: apiKey});
 
+/**
+ * Sends a chat completion request to the OpenAI API and returns the response.
+ *
+ * @param prompt - The prompt to send to the OpenAI API for chat completion.
+ * @returns A Promise that resolves to the ChatCompletion response from the OpenAI API.
+ */
 export const chatConnect = async (prompt: string) : Promise<ChatCompletion> => {
   try {
     const chatResponse: ChatCompletion =
@@ -28,6 +34,12 @@ export const chatConnect = async (prompt: string) : Promise<ChatCompletion> => {
   } 
 };
 
+/**
+ * Sends an embedding request to the OpenAI API and returns the response.
+ *
+ * @param inputs - An array of strings to generate embeddings for.
+ * @returns A Promise that resolves to the CreateEmbeddingResponse from the OpenAI API.
+ */
 export const embedConnect = async (inputs: string[]): Promise <CreateEmbeddingResponse> => {
   try {
     const embeddingResponse: CreateEmbeddingResponse = await openai.embeddings.create({

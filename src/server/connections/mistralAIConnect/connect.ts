@@ -12,6 +12,13 @@ const apiKey = API_KEYS.MISTRAL_AI_API_KEY;
 
 export const mistral: Mistral = new Mistral({ apiKey: apiKey });
 
+/**
+ * Connects to the Mistral AI chat API and generates a chat completion response based on the provided prompt.
+ *
+ * @param prompt - The input prompt to send to the Mistral AI chat model.
+ * @returns A Promise that resolves to the ChatCompletionResponse object returned by the Mistral AI chat API.
+ * @throws An error if there is an issue connecting to the Mistral AI chat API.
+ */
 export const chatConnect = async (prompt: string): Promise<ChatCompletionResponse> => {
   try {
     const chatResponse: ChatCompletionResponse = await mistral.chat.complete({
@@ -27,6 +34,13 @@ export const chatConnect = async (prompt: string): Promise<ChatCompletionRespons
   }
 };
 
+/**
+ * Connects to the Mistral AI embeddings API and generates embeddings for the provided input strings.
+ *
+ * @param inputs - An array of input strings to generate embeddings for.
+ * @returns A Promise that resolves to the ChatCompletionResponse object returned by the Mistral AI embeddings API.
+ * @throws An error if there is an issue connecting to the Mistral AI embeddings API.
+ */
 export const embedConnect = async (inputs: string[]) : Promise<ChatCompletionResponse> => {
   try {
     const embeddingResponse: ChatCompletionResponse = await mistral.embeddings.create({

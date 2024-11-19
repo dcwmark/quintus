@@ -17,17 +17,17 @@ geminiAIChat(prompt)
 //   .then((response) => console.log(`geminiai embedding response::`, response))
 //   .catch((error) => console.error(error));
 
-mistralAIChat(prompt)
-  .then((response) => console.log(`mistralai response::`, JSON.stringify(response, null, 2)))
-  .catch((error) => console.error(error));
+// mistralAIChat(prompt)
+//   .then((response) => console.log(`mistralai response::`, JSON.stringify(response, null, 2)))
+//   .catch((error) => console.error(error));
 
 // mistralAIEmbeddung(inputs)
 //   .then((response) => console.log(`mistralai embedding response::`, response))
 //   .catch((error) => console.error(error));
 
-openAIChat(prompt)
-  .then((response) => console.log(`openai response::`, JSON.stringify(response, null, 2)))
-  .catch((error) => console.error(error));
+// openAIChat(prompt)
+//   .then((response) => console.log(`openai response::`, JSON.stringify(response, null, 2)))
+//   .catch((error) => console.error(error));
 
 // openAIEmbeddung(inputs)
 //   .then((response) => console.log(`openai embedding response::`, response))
