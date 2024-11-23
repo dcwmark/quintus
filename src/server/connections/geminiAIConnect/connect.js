@@ -41,16 +41,11 @@ export const chatConnect = async (prompt) => {
  * @throws An error if there is a problem connecting to the GeminiAI service
  *         or generating the embeddings.
  */
-export const embedConnect = (inputs) => {
-  console.log(`genmini embed llm:: ${ LLMs.GEMINI_AI_EMBED_LLM }`);
+export const embedConnect = async (inputs) => {
   const model = geminiai.getGenerativeModel({ model: LLMs.GEMINI_AI_EMBED_LLM });
-  const embeddingResponses = [];
   try {
-    inputs.map(async (input) => {
-      const embeddingResponse = await model.embedContent(input);
-      embeddingResponses.push(embeddingResponse);
-    });
-    return Promise.resolve(embeddingResponses);
+    const embeddingResponse = await model.embedContent(inputs);
+    return Promise.resolve(embeddingResponse);
   } catch(error) {
     return Promise.reject(`GeminiAi thrown error:: ${ error }`);
   }
