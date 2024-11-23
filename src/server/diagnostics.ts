@@ -17,9 +17,10 @@ geminiAIChat(prompt)
 //   .then((response) => console.log(`geminiai embedding response::`, response))
 //   .catch((error) => console.error(error));
 
-// mistralAIChat(prompt)
-//   .then((response) => console.log(`mistralai response::`, JSON.stringify(response, null, 2)))
-//   .catch((error) => console.error(error));
+mistralAIChat(prompt)
+// .then((response) => console.log(`mistralai response::`, JSON.stringify(response, null, 2)))
+.then((response) => console.log(`mistralai response::`, response.candidates[0].content))
+.catch((error) => console.error(error));
 
 // mistralAIEmbeddung(inputs)
 //   .then((response) => console.log(`mistralai embedding response::`, response))
