@@ -16,9 +16,9 @@ geminiAIChat(prompt)
   .then((response) => console.log(`\n geminiai response::\n\n`, response.response.text()))
   .catch((error) => console.error(error));
 
-// geminiAIEmbedding(inputs)
-//   .then((response) => console.log(`\n geminiai embedding response::`, response))
-//   .catch((error) => console.error(error));
+geminiAIEmbedding(inputs)
+  .then((response) => console.log(`\n geminiai embedding response::`, response))
+  .catch((error) => console.error(error));
 
 mistralAIChat(prompt)
   /** full diagnostics */
@@ -27,9 +27,9 @@ mistralAIChat(prompt)
   .then((response) => console.log(`\n mistralai response::\n\n`, response.choices[0].message.content))
   .catch((error) => console.error(error));
 
-// mistralAIEmbedding(inputs)
-//   .then((response) => console.log(`\n mistralai embedding response::`, response))
-//   .catch((error) => console.error(error));
+mistralAIEmbedding(inputs)
+  .then((response) => console.log(`\n mistralai embedding response::`, response))
+  .catch((error) => console.error(error));
 
 openAIChat(prompt)
   /** full diagnostics */
@@ -38,6 +38,6 @@ openAIChat(prompt)
   .then((response) => console.log(`\n openai response::\n\n`, response.choices[0].message.content))
   .catch((error) => console.error(error));
 
-// openAIEmbedding(inputs)
-//   .then((response) => console.log(`\n openai embedding response::`, response))
-//   .catch((error) => console.error(error));
+openAIEmbedding(inputs)
+  .then((response) => console.log(`\n openai embedding response::`, response))
+  .catch((error) => console.error(error));
