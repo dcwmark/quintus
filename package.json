@@ -1,8 +1,14 @@
 {
   "name": "quintus",
+  "version": "0.0.1",
   "description": "",
-  "version": "1.0.0",
-  "main": "dist/server/index.js",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "node test",
+    "start": "nodemon ./src/server/index.js",
+    "diagnostics": "nodemon ./src/server/diagnostics.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -14,31 +20,15 @@
   "bugs": {
     "url": "https://github.com/dcwmark/quintus/issues"
   },
-  "scriptExplains": {
-    "&": "unix only: concurrent tasks; could use concurrently instead",
-    "&&": "sequential tasks; executes tasks one after another"
-  },
-  "scripts": {
-    "build": "rimraf dist && npx tsc",
-    "prestart": "npm run build",
-    "start": "node dist/server/index.js",
-    "preserve": "npm run build",
-    "server": "concurrently \"npx tsc -w\" \"nodemon dist/server/index.js\"",
-    "diagnostics": "concurrently \"npx tsc -w\" \"nodemon dist/server/diagnostics.js\""
-  },
   "devDependencies": {
-    "@types/express": "^5.0.0",
-    "@types/node": "^22.9.1",
     "concurrently": "^9.1.0",
-    "nodemon": "^3.1.7",
-    "rimraf": "^6.0.1"
+    "dotenv": "^16.4.5",
+    "nodemon": "^3.1.7"
   },
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
     "@mistralai/mistralai": "^1.3.4",
-    "dotenv": "^16.4.5",
     "express": "^4.21.1",
-    "openai": "^4.72.0",
-    "typescript": "^5.6.3"
+    "openai": "^4.73.0"
   }
 }
