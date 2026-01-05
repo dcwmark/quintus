@@ -19,7 +19,7 @@ export default defineConfig({
     },
   },
   server: {
-    port: 3000, // Optional: Set the port for the dev server
+    port: 3000,           // Optional: Set the port for the dev server
   },
 });
 

@@ -10,7 +10,7 @@
     "vite-preview": "vite preview",
     "node-start": "nodemon ./src/server/index.js",
     "node-diagnostics": "nodemon ./src/server/diagnostics.js",
-    "dev": "concurrently \"npm:node-start\" \"npm:vite-dev\""
+    "dev": "concurrently --kill-others \"npm:node-start\" \"npm:vite-dev\""
   },
   "keywords": [],
   "author": "",

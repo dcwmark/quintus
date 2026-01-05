@@ -1,0 +1,95 @@
+= Quintus Build
+
+=== Install Vite
+
+[/src]
+```zsh
+npm install vite @vitejs/plugin-react --save-dev
+npm install react react-dom
+```
+
+=== Vite Config
+
+[/src]
+
+```js
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
+
+export default defineConfig({
+  root: 'src/client',     // Set the root directory for Vite to `src/client`
+  plugins: [react()],     // Enable React support
+  build: {
+    outDir: '../../dist', // Output the build files to `dist` at the project root
+    emptyOutDir: true,    // Clear the output directory before building
+  },
+  resolve: {
+    alias: {
+      '@src': path.resolve(__dirname, './src'),
+      '@srcClient': path.resolve(__dirname, './src/client'),
+      '@srcConstants': path.resolve(__dirname, './src/constants'),
+      '@srcServer': path.resolve(__dirname, './src/server'),
+    },
+  },
+  server: {
+    port: 3000, // Optional: Set the port for the dev server
+  },
+});
+```
+
+=== Create index.html
+
+[src/client]
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My App</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/main.jsx"></script>
+  </body>
+</html>
+```
+
+=== main.js
+
+[src/client]
+
+```jsx
+// src/client/main.jsx
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App'; // Assuming you have an App component
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+```
+
+=== App.jsx
+
+[src/client]
+
+```jsx
+// src/client/App.jsx
+
+import React from 'react';
+
+export default function App() {
+  return (
+    <div className="App">
+      <center><h1>Quintus</h1></center>
+      {/* Add your content here */}
+    </div>
+  );
+};
+```
+
+
