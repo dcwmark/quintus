@@ -5,6 +5,9 @@
 
 ### .env
 ```
+ANTHROPIC_AI_API_URL=https://console.anthropic.com/settings/keys
+ANTHROPIC_AI_API_KEY=
+
 GEMINI_AI_API_KEY=
 GEMINI_AI_CHAT_LLM=gemini-1.5-flash-002
 GEMINI_AI_EMBED_LLM=text-embedding-ada-002
@@ -18,4 +21,3 @@ OPEN_AI_API_KEY=
 OPEN_AI_CHAT_LLM=gpt-3.5-turbo
 OPEN_AI_EMBED_LLM=text-embedding-ada-002
 ```
-
