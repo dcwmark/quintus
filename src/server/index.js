@@ -10,7 +10,7 @@ import httpStatusCodes from 'http-status-codes';
 import 'dotenv/config';
 
 import apiRoutes from '#srcRoutes/apiRoutes.js';
-import WebSocketClients from './services/WebSocketClients.js';
+import WebSocketClients from '#srcServices/WebSocketClients.js';
 
 const app = express();
 const server = http.createServer(app);

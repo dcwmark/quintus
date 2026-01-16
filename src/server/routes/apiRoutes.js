@@ -2,28 +2,16 @@
 
 'use strict';
 
-import transcriptionRouter from '#srcRoutes/transcription.js';
+import documentsRouter from '#srcRoutes/documents.js';
 import queryRouter from '#srcRoutes/query.js';
 import speechRouter from '#srcRoutes/speech.js';
-import documentsRouter from '#srcRoutes/documents.js';
-
-const routeMap = {
-  'POST /api/transcribe': transcriptionRouter,
-  'POST /api/query': queryRouter,
-  'POST /api/speak': speechRouter,
-  'POST /api/upload': documentsRouter,
-};
+import transcriptionRouter from '#srcRoutes/transcription.js';
 
 const apiRoutes = (app) => {
-  ((app, map) => {
-    // Register API routes
-    Object.entries(map).forEach(([key, handler]) => {
-      const [method, path] = key.split(' ');
-      app[method.toLowerCase()](path, handler);
-      
-      console.log(`Registered API route: ${method.toUpperCase()} ${path}`);
-    });
-  })(app, routeMap);
+  app.use('/api', documentsRouter);
+  app.use('/api', queryRouter);
+  app.use('/api', speechRouter);
+  app.use('/api', transcriptionRouter);
 };
 
 export default apiRoutes;
