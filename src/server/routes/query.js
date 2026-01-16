@@ -3,6 +3,7 @@
 'use strict';
 
 import express from 'express';
+import httpStatusCodes from 'http-status-codes';
 import WebSocket from 'ws';
 
 import { MultiAgentRAG } from '#srcServices/MultiAgentRAG.js'
@@ -27,7 +28,8 @@ router.post('/query', async (req, res) => {
     const { query } = req.body;
 
     if (!query || typeof query !== 'string') {
-      return res.status(400).json({ error: 'Query is required' });
+      return res.status(httpStatusCodes.NOT_FOUND)
+                .json({ error: 'Query is required' });
     }
 
     console.log('Processing query:', query);
@@ -44,10 +46,12 @@ router.post('/query', async (req, res) => {
     });
   } catch (error) {
     console.error('Query processing error:', error);
-    res.status(500).json({ 
-      error: 'Query processing failed',
-      message: error.message 
-    });
+    res
+      .status(httpStatusCodes.INTERNAL_SERVER_ERROR)
+      .json({
+        error: 'Query processing failed',
+        message: error.message 
+      });
   }
 });
 

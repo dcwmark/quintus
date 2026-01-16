@@ -3,6 +3,7 @@
 'use strict';
 import express from 'express';
 import fs from 'fs/promises';
+import httpStatusCodes from 'http-status-codes';
 import gtts from 'node-gtts';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
@@ -14,9 +15,10 @@ router.post('/speak', async (req, res) => {
     const { text, language = 'en' } = req.body;
 
     if (!text) {
-      return res.status(400).json(
-        { error: 'Text is required' }
-      );
+      return res.status(httpStatusCodes.NOT_FOUND)
+                .json(
+                  { error: 'Text is required' }
+                );
     }
 
     console.log(
@@ -50,10 +52,12 @@ router.post('/speak', async (req, res) => {
     res.send(audioBuffer);
   } catch (error) {
     console.error('Text-to-speech error:', error);
-    res.status(500).json({ 
-      error: 'Speech generation failed',
-      message: error.message 
-    });
+    res
+      .status(httpStatusCodes.INTERNAL_SERVER_ERROR)
+      .json({
+        error: 'Speech generation failed',
+        message: error.message 
+      });
   }
 });
 

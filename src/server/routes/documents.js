@@ -8,7 +8,6 @@ import { createReadStream } from 'fs';
 import fs from 'fs/promises';
 import httpStatusCodes from 'http-status-codes';
 import mammoth from 'mammoth';
-import { createRequire } from 'module'; 
 import multer from 'multer';
 import { PDFParse } from 'pdf-parse';
 
@@ -74,7 +73,9 @@ router.post('/upload', upload.single('document'), async (req, res) => {
       await fs.unlink(req.file.path).catch(console.error);
     }
     
-    res.status(500).json({ 
+    res
+      .status(httpStatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ 
       error: 'Document processing failed',
       message: error.message 
     });
