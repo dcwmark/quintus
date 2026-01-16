@@ -2,10 +2,7 @@
 
 'use strict';
 
-import { GoogleGenerativeAI } from '@google/generative-ai';
 import 'dotenv/config';
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_AI_API_KEY);
 
 (async () => {
   try {
