@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
-    "@huggingface/inference": "^4.13.5",
+    "@huggingface/inference": "^4.13.9",
     "@mistralai/mistralai": "^1.11.0",
     "axios": "^1.13.2",
     "cors": "^2.8.5",
