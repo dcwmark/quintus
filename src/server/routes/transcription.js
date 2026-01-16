@@ -4,6 +4,7 @@
 
 import express from 'express';
 import fs from 'fs/promises';
+import httpStatusCodes from 'http-status-codes';
 import multer from 'multer';
 import { InferenceClient } from '@huggingface/inference';
 
@@ -15,7 +16,8 @@ const hf = new InferenceClient(process.env.HUGGINGFACE_API_KEY);
 router.post('/transcribe', upload.single('audio'), async (req, res) => {
   try {
     if (!req.file) {
-      return res.status(400).json({ error: 'No audio file provided' });
+      return res.status(httpStatusCodes.NOT_FOUND)
+                .json({ error: 'No audio file provided' });
     }
 
     console.log('Processing audio file:', req.file.filename);
@@ -48,10 +50,12 @@ router.post('/transcribe', upload.single('audio'), async (req, res) => {
       await fs.unlink(req.file.path).catch(console.error);
     }
     
-    res.status(500).json({ 
-      error: 'Transcription failed',
-      message: error.message 
-    });
+    res
+      .status(httpStatusCodes.INTERNAL_SERVER_ERROR)
+      .json({
+        error: 'Transcription failed',
+        message: error.message 
+      });
   }
 });
 
