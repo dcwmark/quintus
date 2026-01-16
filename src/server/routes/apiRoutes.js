@@ -8,10 +8,10 @@ import speechRouter from '#srcRoutes/speech.js';
 import documentsRouter from '#srcRoutes/documents.js';
 
 const routeMap = {
-  'POST /transcribe': transcriptionRouter,
-  'POST /query': queryRouter,
-  'POST /speak': speechRouter,
-  'POST /upload': documentsRouter,
+  'POST /api/transcribe': transcriptionRouter,
+  'POST /api/query': queryRouter,
+  'POST /api/speak': speechRouter,
+  'POST /api/upload': documentsRouter,
 };
 
 const apiRoutes = (app) => {

@@ -120,7 +120,7 @@ const App = () => {
     
     try {
       // Start WebSocket connection for real-time agent updates
-      const ws = new WebSocket(`ws://localhost:3001/ws`)
+      const ws = new WebSocket(`ws://localhost:5000`)
       
       ws.onmessage = (event) => {
         const data = JSON.parse(event.data)
