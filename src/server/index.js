@@ -6,19 +6,15 @@ import cors from 'cors';
 import express from 'express';
 import http from 'http';
 import httpStatusCodes from 'http-status-codes';
-import multer from 'multer';
-import { dirname, join } from 'path';
-import { fileURLToPath } from 'url';
-import WebSocket, { WebSocketServer } from 'ws';
 
 import 'dotenv/config';
 
-import apiRoutes from '#srcRoutes/index.js';
-// import { MultiAgentRAG } from '#srcServices/MultiAgentRAG.js'
+import apiRoutes from '#srcRoutes/apiRoutes.js';
+import WebSocketClients from './services/WebSocketClients.js';
 
 const app = express();
 const server = http.createServer(app);
-const wss = new WebSocketServer({ server });
+WebSocketClients(server);
 
 const PORT = process.env.PORT ?? 5000;
 
@@ -31,37 +27,10 @@ app.use(express.urlencoded({
 }));
 
 // File upload configuration
-const upload = multer({ 
-  dest: 'uploads/',
-  limits: { fileSize: 25 * 1024 * 1024 } // 25MB limit
-});
-
-// Initialize Multi-Agent RAG System
-// const multiAgentRAG = new MultiAgentRAG();
-
-// WebSocket connections store
-const clients = new Set();
-
-// WebSocket handling
-wss.on('connection', (ws) => {
-  clients.add(ws);
-  console.log('New WebSocket connection established');
-  
-  ws.on('close', () => {
-    clients.delete(ws);
-    console.log('WebSocket connection closed');
-  });
-});
-
-
-// Broadcast function for agent updates
-export const broadcastToClients = (data) => {
-  clients.forEach(client => {
-    if (client.readyState === WebSocket.OPEN) {
-      client.send(JSON.stringify(data));
-    }
-  });
-};
+// const upload = multer({ 
+//   dest: 'uploads/',
+//   limits: { fileSize: 25 * 1024 * 1024 } // 25MB limit
+// });
 
 /** api routes registrar */
 apiRoutes(app);
