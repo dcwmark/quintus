@@ -209,7 +209,7 @@ const App = () => {
   }
 
   return (
-    <div classname="app">
+    <div className="app">
       <header className="app-header">
         <div className="header-content">
           <div className="logo">
