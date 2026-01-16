@@ -26,7 +26,8 @@ router.post('/transcribe', upload.single('audio'), async (req, res) => {
     // Use Hugging Face Whisper for transcription
     const result = await hf.automaticSpeechRecognition({
       data: audioBuffer,
-      model: 'openai/whisper-base'
+      model: 'openai/whisper-base',
+      provider: 'hf-inference',
     });
 
     // Clean up uploaded file
