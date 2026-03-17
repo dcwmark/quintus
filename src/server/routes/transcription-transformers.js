@@ -9,6 +9,10 @@ import multer from 'multer';
 import { pipeline } from '@xenova/transformers';
 import wavefile from 'wavefile';
 import ffmpeg from 'fluent-ffmpeg';
+import ffmpegPath from 'ffmpeg-static';
+
+// Set the ffmpeg path to use the bundled binary
+ffmpeg.setFfmpegPath(ffmpegPath);
 
 const router = express.Router();
 const upload = multer({ dest: 'uploads/' });
@@ -53,7 +57,6 @@ async function processAudioFile(filePath) {
   // Convert to WAV format first
   const wavPath = await convertToWav(filePath);
   
-  
   try {
     // Read the WAV file as a buffer
     const audioBuffer = await fs.readFile(wavPath);
@@ -61,24 +64,43 @@ async function processAudioFile(filePath) {
     // Create WAV file handler
     const wav = new wavefile.WaveFile(audioBuffer);
     
-    // Get the samples as Float32Array
+    // Get the samples
     const samples = wav.getSamples();
     
     // If samples is an array of channels, take the first channel
-    const audioData = Array.isArray(samples) ? samples[0] : samples;
+    let audioData = Array.isArray(samples) ? samples[0] : samples;
     
-    // Ensure it's a Float32Array and normalize to [-1, 1] range if needed
+    // Convert to Float32Array
     let float32Data;
+    
     if (audioData instanceof Float32Array) {
       float32Data = audioData;
+    } else if (audioData instanceof Float64Array) {
+      // Convert Float64 to Float32
+      float32Data = new Float32Array(audioData);
     } else if (audioData instanceof Int16Array) {
       // Convert Int16 to Float32 and normalize
       float32Data = new Float32Array(audioData.length);
       for (let i = 0; i < audioData.length; i++) {
         float32Data[i] = audioData[i] / 32768.0;
       }
+    } else if (audioData instanceof Int8Array) {
+      // Convert Int8 to Float32 and normalize
+      float32Data = new Float32Array(audioData.length);
+      for (let i = 0; i < audioData.length; i++) {
+        float32Data[i] = audioData[i] / 128.0;
+      }
+    } else if (audioData instanceof Uint8Array) {
+      // Convert Uint8 to Float32 and normalize
+      float32Data = new Float32Array(audioData.length);
+      for (let i = 0; i < audioData.length; i++) {
+        float32Data[i] = (audioData[i] - 128) / 128.0;
+      }
+    } else if (Array.isArray(audioData)) {
+      // Convert regular array to Float32Array
+      float32Data = new Float32Array(audioData);
     } else {
-      throw new Error('Unsupported audio data format');
+      throw new Error(`Unsupported audio data format: ${audioData?.constructor?.name}`);
     }
     
     // Clean up the converted WAV file
