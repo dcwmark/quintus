@@ -25,7 +25,8 @@ async function getTranscriber() {
     console.log('Loading Whisper model locally...');
     transcriber = await pipeline(
       'automatic-speech-recognition',
-      'Xenova/whisper-small',
+      // 'Xenova/whisper-small',
+      'Xenova/whisper-tiny',
       {
         // Model will be downloaded and cached locally
         // cache_dir: './models',
@@ -124,17 +125,34 @@ router.post('/transcribe', upload.single('audio'), async (req, res) => {
     console.log('Processing audio file with Transformers.js:', req.file.filename);
     
     // Get the transcriber
+    console.time('Model loading');
     const transcriber = await getTranscriber();
+    console.timeEnd('Model loading');
     
     // Process the audio file to get Float32Array
+    console.log('Converting audio file...');
+    console.time('Audio conversion');
     const waveform = await processAudioFile(req.file.path);
+    console.timeEnd('Audio conversion');
+    console.log('Audio converted, length:', waveform.length, 'samples (~', Math.round(waveform.length / 16000), 'seconds)');
 
     // Transcribe (this happens locally!)
+    console.log('Starting transcription...');
+    console.time('Transcription');
+
     const result = await transcriber(waveform, {
       chunk_length_s: 30,
       stride_length_s: 5,
-      return_timestamps: true
+      return_timestamps: true,
+      language: 'en',
+      task: 'transcribe',
+      // Add callback to see progress
+      callback_function: (beams) => {
+        console.log('Transcription progress:', beams);
+      }
     });
+    
+    console.timeEnd('Transcription');
 
     // Clean up uploaded file
     await fs.unlink(req.file.path).catch(console.error);
@@ -151,6 +169,7 @@ router.post('/transcribe', upload.single('audio'), async (req, res) => {
 
   } catch (error) {
     console.error('Transformers.js transcription error:', error);
+    console.error('Error stack:', error.stack);
     
     if (req.file) {
       await fs.unlink(req.file.path).catch(console.error);
