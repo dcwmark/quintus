@@ -55,21 +55,44 @@ async function convertToWav(inputPath) {
 }
 
 async function processAudioFile(filePath) {
+  console.log('Input file path:', filePath);
+  
   // Convert to WAV format first
+  console.time('WAV conversion');
   const wavPath = await convertToWav(filePath);
+  console.timeEnd('WAV conversion');
+  console.log('WAV file created at:', wavPath);
   
   try {
     // Read the WAV file as a buffer
     const audioBuffer = await fs.readFile(wavPath);
+    console.log('Audio buffer size:', audioBuffer.length, 'bytes');
     
     // Create WAV file handler
     const wav = new wavefile.WaveFile(audioBuffer);
     
+    console.log('WAV details:', {
+      sampleRate: wav.fmt.sampleRate,
+      numChannels: wav.fmt.numChannels,
+      bitDepth: wav.bitDepth,
+      duration: wav.data.samples.length / wav.fmt.sampleRate / wav.fmt.numChannels
+    });
+    
     // Get the samples
     const samples = wav.getSamples();
+    console.log('Samples type:', samples?.constructor?.name);
+    console.log('Samples length:', samples?.length);
     
     // If samples is an array of channels, take the first channel
     let audioData = Array.isArray(samples) ? samples[0] : samples;
+    console.log('Audio data type:', audioData?.constructor?.name);
+    console.log('Audio data length:', audioData?.length);
+    
+    // Check if audio has actual content (not all zeros/silence)
+    const sampleCheck = audioData.slice(0, 100);
+    const hasContent = Array.from(sampleCheck).some(val => Math.abs(val) > 0.01);
+    console.log('Audio has content:', hasContent);
+    console.log('Sample values (first 10):', Array.from(audioData.slice(0, 10)));
     
     // Convert to Float32Array
     let float32Data;
@@ -77,39 +100,36 @@ async function processAudioFile(filePath) {
     if (audioData instanceof Float32Array) {
       float32Data = audioData;
     } else if (audioData instanceof Float64Array) {
-      // Convert Float64 to Float32
       float32Data = new Float32Array(audioData);
     } else if (audioData instanceof Int16Array) {
-      // Convert Int16 to Float32 and normalize
       float32Data = new Float32Array(audioData.length);
       for (let i = 0; i < audioData.length; i++) {
         float32Data[i] = audioData[i] / 32768.0;
       }
     } else if (audioData instanceof Int8Array) {
-      // Convert Int8 to Float32 and normalize
       float32Data = new Float32Array(audioData.length);
       for (let i = 0; i < audioData.length; i++) {
         float32Data[i] = audioData[i] / 128.0;
       }
     } else if (audioData instanceof Uint8Array) {
-      // Convert Uint8 to Float32 and normalize
       float32Data = new Float32Array(audioData.length);
       for (let i = 0; i < audioData.length; i++) {
         float32Data[i] = (audioData[i] - 128) / 128.0;
       }
     } else if (Array.isArray(audioData)) {
-      // Convert regular array to Float32Array
       float32Data = new Float32Array(audioData);
     } else {
       throw new Error(`Unsupported audio data format: ${audioData?.constructor?.name}`);
     }
+    
+    console.log('Final Float32Array length:', float32Data.length);
+    console.log('Final sample values (first 10):', Array.from(float32Data.slice(0, 10)));
     
     // Clean up the converted WAV file
     await fs.unlink(wavPath).catch(console.error);
     
     return float32Data;
   } catch (error) {
-    // Clean up the converted WAV file on error
     await fs.unlink(wavPath).catch(console.error);
     throw error;
   }
@@ -170,7 +190,7 @@ router.post('/transcribe', upload.single('audio'), async (req, res) => {
   } catch (error) {
     console.error('Transformers.js transcription error:', error);
     console.error('Error stack:', error.stack);
-    
+
     if (req.file) {
       await fs.unlink(req.file.path).catch(console.error);
     }
