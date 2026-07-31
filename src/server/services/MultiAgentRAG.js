@@ -125,7 +125,7 @@ class BaseAgent {
         return response.choices[0].message.content;
       } else {
         const response = await this.hf.textGeneration({
-          model: 'microsoft/DialoGPT-medium',
+          model: 'google/flan-t5-small',
           inputs: prompt,
           parameters: {
             max_new_tokens: 200,
@@ -159,15 +159,17 @@ class CoordinatorAgent extends BaseAgent {
     const response = await this.generateResponse(prompt);
     
     // Simple heuristics for determining needs
-    const needsResearch = query.toLowerCase().includes('what') || 
-                         query.toLowerCase().includes('who') || 
-                         query.toLowerCase().includes('when') ||
-                         query.toLowerCase().includes('where');
+    const needsResearch =
+      query.toLowerCase().includes('what') || 
+      query.toLowerCase().includes('who') || 
+      query.toLowerCase().includes('when') ||
+      query.toLowerCase().includes('where');
                          
-    const needsAnalysis = query.toLowerCase().includes('why') || 
-                         query.toLowerCase().includes('how') ||
-                         query.toLowerCase().includes('analyze') ||
-                         query.toLowerCase().includes('compare');
+    const needsAnalysis =
+      query.toLowerCase().includes('why') || 
+      query.toLowerCase().includes('how') ||
+      query.toLowerCase().includes('analyze') ||
+      query.toLowerCase().includes('compare');
 
     return {
       response,
@@ -180,13 +182,25 @@ class CoordinatorAgent extends BaseAgent {
   classifyQuery(query) {
     const lowerQuery = query.toLowerCase();
     
-    if (lowerQuery.includes('define') || lowerQuery.includes('what is')) {
+    if (
+        lowerQuery.includes('define') ||
+        lowerQuery.includes('what is')
+    ) {
       return 'definition';
-    } else if (lowerQuery.includes('how to') || lowerQuery.includes('steps')) {
+    } else if (
+      lowerQuery.includes('how to') ||
+      lowerQuery.includes('steps')
+    ) {
       return 'instruction';
-    } else if (lowerQuery.includes('compare') || lowerQuery.includes('vs')) {
+    } else if (
+      lowerQuery.includes('compare') ||
+      lowerQuery.includes('vs')
+    ) {
       return 'comparison';
-    } else if (lowerQuery.includes('why') || lowerQuery.includes('reason')) {
+    } else if (
+      lowerQuery.includes('why') ||
+      lowerQuery.includes('reason')
+    ) {
       return 'explanation';
     } else {
       return 'general';

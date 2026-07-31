@@ -2,18 +2,16 @@
 
 'use strict';
 
+import { execFile } from 'child_process';
 import express from 'express';
 import fs from 'fs/promises';
 import httpStatusCodes from 'http-status-codes';
 import multer from 'multer';
-import { pipeline } from '@xenova/transformers';
+import { promisify } from 'util';
 import wavefile from 'wavefile';
-import ffmpeg from 'fluent-ffmpeg';
-import ffmpegPath from 'ffmpeg-static';
+import { pipeline } from '@xenova/transformers';
 
-// Set the ffmpeg path to use the bundled binary
-ffmpeg.setFfmpegPath(ffmpegPath);
-
+const execFileAsync = promisify(execFile);
 const router = express.Router();
 const upload = multer({ dest: 'uploads/' });
 
@@ -25,8 +23,7 @@ async function getTranscriber() {
     console.log('Loading Whisper model locally...');
     transcriber = await pipeline(
       'automatic-speech-recognition',
-      // 'Xenova/whisper-small',
-      'Xenova/whisper-tiny',
+      'Xenova/whisper-small',
       {
         // Model will be downloaded and cached locally
         // cache_dir: './models',
@@ -40,18 +37,39 @@ async function getTranscriber() {
   return transcriber;
 }
 
-async function convertToWav(inputPath) {
-  const outputPath = `${inputPath}.wav`;
-  
-  return new Promise((resolve, reject) => {
-    ffmpeg(inputPath)
-      .toFormat('wav')
-      .audioFrequency(16000)
-      .audioChannels(1)
-      .on('end', () => resolve(outputPath))
-      .on('error', reject)
-      .save(outputPath);
-  });
+async function convertToWav(inputFilePath) {
+  const outputFilePath = `${inputFilePath}.wav`;
+
+  /**
+   * '-y' — overwrite output file without asking.
+   * '-i' — next item is the input file path (inputFilePath).
+   * '-ar' '16000' — set audio sample rate to 16000 Hz.
+   * '-ac' '1' — set number of channels to 1 (mono).
+   * '-sample_fmt' 's16' — set sample format to signed 16-bit PCM.
+   * outputFilePath — the destination WAV file path (e.g., ${inputFilePath}.wav).
+   */
+  const ffmpegArgs = [
+    '-y',
+    '-i',
+    inputFilePath,
+    '-ar', '16000',
+    '-ac', '1',
+    '-sample_fmt', 's16',
+    outputFilePath
+  ];
+
+  try {
+    await execFileAsync('ffmpeg', ffmpegArgs);
+    return outputFilePath;
+  } catch (error) {
+    if (error.code === 'ENOENT') {
+      throw new Error(
+        'ffmpeg is not installed or not found in PATH. \
+        Please install ffmpeg to use Transformers transcription.'
+      );
+    }
+    throw error;
+  }
 }
 
 async function processAudioFile(filePath) {
@@ -59,8 +77,12 @@ async function processAudioFile(filePath) {
   
   // Convert to WAV format first
   console.time('WAV conversion');
-  const wavPath = await convertToWav(filePath);
-  console.timeEnd('WAV conversion');
+  let wavPath;
+  try {
+    wavPath = await convertToWav(filePath);
+  } finally {
+    console.timeEnd('WAV conversion');
+  }
   console.log('WAV file created at:', wavPath);
   
   try {
@@ -145,34 +167,17 @@ router.post('/transcribe', upload.single('audio'), async (req, res) => {
     console.log('Processing audio file with Transformers.js:', req.file.filename);
     
     // Get the transcriber
-    console.time('Model loading');
     const transcriber = await getTranscriber();
-    console.timeEnd('Model loading');
     
     // Process the audio file to get Float32Array
-    console.log('Converting audio file...');
-    console.time('Audio conversion');
     const waveform = await processAudioFile(req.file.path);
-    console.timeEnd('Audio conversion');
-    console.log('Audio converted, length:', waveform.length, 'samples (~', Math.round(waveform.length / 16000), 'seconds)');
 
     // Transcribe (this happens locally!)
-    console.log('Starting transcription...');
-    console.time('Transcription');
-
     const result = await transcriber(waveform, {
       chunk_length_s: 30,
       stride_length_s: 5,
-      return_timestamps: true,
-      language: 'en',
-      task: 'transcribe',
-      // Add callback to see progress
-      callback_function: (beams) => {
-        console.log('Transcription progress:', beams);
-      }
+      return_timestamps: true
     });
-    
-    console.timeEnd('Transcription');
 
     // Clean up uploaded file
     await fs.unlink(req.file.path).catch(console.error);
@@ -189,8 +194,7 @@ router.post('/transcribe', upload.single('audio'), async (req, res) => {
 
   } catch (error) {
     console.error('Transformers.js transcription error:', error);
-    console.error('Error stack:', error.stack);
-
+    
     if (req.file) {
       await fs.unlink(req.file.path).catch(console.error);
     }
@@ -205,4 +209,3 @@ router.post('/transcribe', upload.single('audio'), async (req, res) => {
 });
 
 export default router;
-
