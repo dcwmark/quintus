@@ -4,6 +4,7 @@
 
 import { execFile } from 'child_process';
 import express from 'express';
+import ffmpegPath from 'ffmpeg-static';
 import fs from 'fs/promises';
 import httpStatusCodes from 'http-status-codes';
 import multer from 'multer';
@@ -59,7 +60,7 @@ async function convertToWav(inputFilePath) {
   ];
 
   try {
-    await execFileAsync('ffmpeg', ffmpegArgs);
+    await execFileAsync(ffmpegPath, ffmpegArgs);
     return outputFilePath;
   } catch (error) {
     if (error.code === 'ENOENT') {
